@@ -7,6 +7,7 @@ def run_s2s_once(audio_path, device_index=None):
     from s2s_pipeline.llm.openai_llm import call_llm
     from s2s_pipeline.llm.llm2t2c_adapter import format_llm_response
     from s2s_pipeline.tts.deepgram_tts import text_to_speech
+    from s2s_pipeline.utils.env_check import running_on_huggingface
 
     dialogue_manager = DialogueManager()
 
