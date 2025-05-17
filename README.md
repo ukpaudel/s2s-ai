@@ -103,7 +103,7 @@ The microphone used for recording is saved in `mic_config.json` like:
 After installation, you can run the full pipeline via command line:
 
 ```bash
-s2s-run
+python scripts/run_pipeline.py
 ```
 
 ### 🌐 Web Demo (Gradio)
