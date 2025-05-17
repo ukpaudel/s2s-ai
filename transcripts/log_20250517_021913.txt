@@ -1,0 +1,24 @@
+[Assistant] Hey! How can I help you?
+[Listening] Waiting for your initial request...
+[Topic] (Topic locked:  I'm having an itchy throat. What should I do?)
+[Listening] Recording audio...
+[Processing] Running VAD and Speaker ID...
+[Transcribing] Transcribing audio...
+[Transcript] User: 
+[Thinking] Calling LLM...
+[Response] Assistant: I'm sorry to hear that you're dealing with an itchy throat! It can be really uncomfortable. Here are a few things you might consider trying:
+
+1. **Stay Hydrated**: Drink plenty of water to keep your throat moist. Herbal teas with honey can be especially soothing.
+
+2. **Gargle Salt Water**: Mixing a teaspoon of salt in warm water and gargling it can help reduce irritation.
+
+3. **Use Humidifiers**: If the air in your home is dry, a humidifier can add moisture to the air, which might help soothe your throat.
+
+4. **Lozenges or Hard Candy**: Sucking on throat lozenges or hard candy can help keep your throat lubricated.
+
+5. **Avoid Irritants**: Try to stay away from smoke, strong odors, and allergens that could be contributing to the itchiness.
+
+6. **Over-the-Counter Remedies**: Antihistamines can help if your itchy throat is due to allergies.
+
+If your symptoms persist or worsen, it might be a good idea to consult a healthcare professional. How long have you been experiencing this?
+[Speaking] TTS: I'm sorry to hear that you're dealing with an itchy throat! It can be really uncomfortable. Here are a few things you might consider trying 1. Stay Hydrated Drink plenty of water to keep your throat moist. Herbal teas with honey can be especially soothing. 2. Gargle Salt Water Mixing a teaspoon of salt in warm water and gargling it can help reduce irritation. 3. Use Humidifiers If the air in your home is dry, a humidifier can add moisture to the air, which might help soothe your throat. 4. Lozenges or Hard Candy Sucking on throat lozenges or hard candy can help keep your throat lubricated. 5. Avoid Irritants Try to stay away from smoke, strong odors, and allergens that could be contributing to the itchiness. 6. OvertheCounter Remedies Antihistamines can help if your itchy throat is due to allergies. If your symptoms persist or worsen, it might be a good idea to consult a healthcare professional. How long have you been experiencing this?

@@ -1,0 +1,29 @@
+[Assistant] Hey! How can I help you?
+[Listening] Waiting for your initial request...
+[Topic] (Topic locked:  My internet isn't working can help me what to do with it.)
+[Listening] Recording audio...
+[Processing] Running VAD and Speaker ID...
+[Transcribing] Transcribing audio...
+[Transcript] User: 
+[Thinking] Calling LLM...
+[Response] Assistant: Of course! I’d be happy to help you with your internet issues. Can you tell me a bit more about what’s happening? Are you getting an error message, or is it just not connecting?
+[Speaking] TTS: Of course! Id be happy to help you with your internet issues. Can you tell me a bit more about whats happening? Are you getting an error message, or is it just not connecting?
+[Listening] Recording audio...
+[Processing] Running VAD and Speaker ID...
+[Transcribing] Transcribing audio...
+[Transcript] User:  It's not connecting, there is some blinking green light.
+[Thinking] Calling LLM...
+[Response] Assistant: Thanks for the info! A blinking green light usually indicates that there’s some activity, but it can also mean that there’s a connection problem. Here are a few steps you can try to troubleshoot the issue:
+
+1. **Restart Your Router**: Unplug your router, wait about 30 seconds, and then plug it back in. This can often resolve connectivity issues.
+
+2. **Check Your Cables**: Make sure all cables are securely connected. Sometimes, a loose cable can cause connection problems.
+
+3. **Look for Outages**: Check with your internet service provider to see if there's a known outage in your area. You can usually do this on their website or by calling them.
+
+4. **Connect via Ethernet**: If you have an Ethernet cable, try connecting your device directly to the router. This can help you determine if the issue is with your Wi-Fi.
+
+5. **Device Settings**: Check the Wi-Fi settings on your device to ensure that Wi-Fi is turned on and that you’re connected to the correct network.
+
+Let me know how it goes, and if you need more help, I’m here for you!
+[Speaking] TTS: Thanks for the info! A blinking green light usually indicates that theres some activity, but it can also mean that theres a connection problem. Here are a few steps you can try to troubleshoot the issue 1. Restart Your Router Unplug your router, wait about 30 seconds, and then plug it back in. This can often resolve connectivity issues. 2. Check Your Cables Make sure all cables are securely connected. Sometimes, a loose cable can cause connection problems. 3. Look for Outages Check with your internet service provider to see if there's a known outage in your area. You can usually do this on their website or by calling them. 4. Connect via Ethernet If you have an Ethernet cable, try connecting your device directly to the router. This can help you determine if the issue is with your WiFi. 5. Device Settings Check the WiFi settings on your device to ensure that WiFi is turned on and that youre connected to the correct network. Let me know how it goes, and if you need more help, Im here for you!

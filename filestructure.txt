@@ -1,0 +1,36 @@
+s2s_ai_pipeline/
+├── LICENSE
+├── README.md
+├── pyproject.toml
+├── setup.cfg
+├── .gitignore
+├── requirements.txt
+├── setup.py
+├── cli.py
+├── scripts/
+│   └── run_pipeline.py
+├── s2s_pipeline/
+│   ├── __init__.py
+│   ├── audio/
+│   │   ├── __init__.py
+│   │   ├── audio_input.py
+│   │   ├── vad_speaker_id.py
+│   │   └── output_audio.py
+│   ├── asr/
+│   │   ├── __init__.py
+│   │   ├── whisper_asr.py
+│   │   └── asr2llm_adapter.py
+│   ├── dialogue/
+│   │   ├── __init__.py
+│   │   ├── dialogue_manager.py
+│   │   ├── prompt_engineer.py
+│   │   └── conversation_classifier.py
+│   ├── llm/
+│   │   ├── __init__.py
+│   │   ├── openai_llm.py
+│   │   └── llm2t2c_adapter.py
+│   └── tts/
+│       ├── __init__.py
+│       └── deepgram_tts.py
+└── tests/
+    └── test_pipeline.py
