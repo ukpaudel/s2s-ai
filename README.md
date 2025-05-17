@@ -70,8 +70,8 @@ The microphone used for recording is saved in `mic_config.json` like:
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/s2s-ai-pipeline.git
-   cd s2s-ai-pipeline
+   git clone https://github.com/upaudel/s2s-ai.git
+   cd s2s-ai
    ```
 
 2. Install dependencies:
