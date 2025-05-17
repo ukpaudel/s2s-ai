@@ -103,7 +103,10 @@ The microphone used for recording is saved in `mic_config.json` like:
 After installation, you can run the full pipeline via command line:
 
 ```bash
+<<<<<<< HEAD
 #s2s-run
+=======
+>>>>>>> c6695477a84b9fdfed9f77c1f8a713ddceb91a73
 python scripts/run_pipeline.py
 ```
 
