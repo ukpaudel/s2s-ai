@@ -1,4 +1,15 @@
 
+---
+title: S2S Voice Assistant Demo
+emoji: 🎙️
+colorFrom: indigo
+colorTo: pink
+sdk: gradio
+sdk_version: "4.22.0"
+app_file: gradio_demo.py
+pinned: false
+---
+
 # 🎙️ Multi-turn Speech-to-Speech AI Pipeline
 
 A complete conversational voice agent pipeline powered by:
