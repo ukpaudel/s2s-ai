@@ -6,7 +6,7 @@ project_root = Path(__file__).resolve().parent.parent
 sys.path.append(str(project_root))
 
 import gradio as gr
-from s2s_pipeline.api.pipeline_core import run_s2s_once  # make sure this path is correct
+from api.pipeline_core import run_s2s_once  # make sure this path is correct
 
 def s2s_handler(audio_file):
     transcript, response, audio_out_path = run_s2s_once(audio_file)
