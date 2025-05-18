@@ -171,7 +171,10 @@ def send_email(to=None, body=None, subject=None, confirm=False, step=None, **_):
     if to and body:
         try:
             to_norm = normalise_email(to)
-            msg = MIMEText(body)
+            footer = "\n Regards, \n Uttam P. \n\n--\nMessage sent through VoiceAI powered by Deepgram!"
+            full_body = f"{body}{footer}"          # ← add footer here
+
+            msg = MIMEText(full_body)
             msg["Subject"] = subject or "Voice assistant message"
             msg["From"]    = EMAIL
             msg["To"]      = to_norm

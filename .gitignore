@@ -2,6 +2,8 @@
 # Ignore environment files
 .env
 *.env
+contacts.csv
+contacts.json
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
