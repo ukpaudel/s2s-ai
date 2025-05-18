@@ -20,14 +20,16 @@ EMAIL        = os.getenv("EMAIL_ADDRESS")
 PASSWORD     = os.getenv("EMAIL_PASSWORD")
 SMTP_SERVER  = os.getenv("EMAIL_SMTP_SERVER", "smtp.gmail.com")
 SMTP_PORT    = int(os.getenv("EMAIL_SMTP_PORT", 465))
+personal_files = r'../s2s_ai_pipeline/personaldata/'
 
 # ── contacts ----------------------------------------------------------
-def load_contacts(path="contacts.json") -> dict[str, str]:
+def load_contacts(path=personal_files+"contacts.json") -> dict[str, str]:
     try:
         with open(path, encoding="utf-8") as f:
             # store keys lower-cased
             return {k.lower(): v for k, v in json.load(f).items()}
     except FileNotFoundError:
+        print('No Contact List Found. Provide the info for better detection of contact address')
         return {}
 
 CONTACTS: dict[str, str] = load_contacts()

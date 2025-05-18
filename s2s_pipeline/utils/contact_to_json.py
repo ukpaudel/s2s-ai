@@ -1,5 +1,8 @@
 import csv
 import json
+'''
+python s2s_pipeline\utils\contact_to_json.py .\personaldata\contacts.csv .\personaldata\contacts.json
+'''
 
 def convert_csv_to_json(csv_path, json_path="contacts.json"):
     with open(csv_path, newline='', encoding='utf-8') as csvfile:

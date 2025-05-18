@@ -45,7 +45,7 @@ def run_s2s_once(
     # ────────────────────────────────────────────────────────────────
     last_action = dialogue_manager.state.get("last_action")
 
-    # ― YES / NO confirmation for recipient address
+
     # YES / NO confirmation for recipient address -----------------------
     if (
         last_action
@@ -99,7 +99,12 @@ def run_s2s_once(
     # ────────────────────────────────────────────────────────────────
 
     # 3️⃣  Prompt → LLM
-    context    = dialogue_manager.get_context_snippet()
+    # Omit previous turn if we just completed an action
+    if last_action and last_action.get("step") in ["awaiting_body", "awaiting_recipient_confirm"]:
+        context = dialogue_manager.get_context_snippet(skip_last=True)  # Implement this
+    else:
+        context = dialogue_manager.get_context_snippet()
+
     prompt     = enhance_prompt({"user_input": user_text, "context": context})
     llm_raw    = call_llm(prompt)          # str OR dict
 
@@ -110,8 +115,12 @@ def run_s2s_once(
         parsed = llm_raw
 
     last_action = dialogue_manager.state.get("last_action")
-
-    if isinstance(parsed, dict) and isinstance(parsed.get("action"), dict):
+   # This avoids re-triggering stale actions once an email is sent and the action has been cleared.
+    if (
+    isinstance(parsed, dict)
+    and isinstance(parsed.get("action"), dict)
+    and dialogue_manager.state.get("last_action") is None  # NEW
+    ):
         act = parsed["action"]
         if last_action and last_action.get("type") == act.get("type"):
             merged = {**last_action.get("parameters", {}), **act.get("parameters", {})}

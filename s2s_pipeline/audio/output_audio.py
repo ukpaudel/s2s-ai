@@ -1,17 +1,20 @@
-
 from pydub import AudioSegment
 from pydub.playback import _play_with_simpleaudio
 import threading
 import pyaudio
 import webrtcvad
+import numpy as np
 import time
 import collections
 
-def monitor_for_voice_interrupt(rate=16000, duration_ms=30, aggressiveness=3, frame_window=10, trigger_count=3, device_index=None):
+def monitor_for_voice_interrupt(rate=16000, duration_ms=30, aggressiveness=2,
+                                 frame_window=10, trigger_count=3,
+                                 energy_threshold=500, device_index=None):
     """
-    Monitors microphone input and returns True if voice is detected consistently.
+    Real-time voice interrupt monitor using WebRTC VAD + basic noise filter.
+    Returns True if voice is detected consistently over trigger_count frames.
     """
-    if duration_ms not in [10, 20, 30]:
+    if duration_ms not in [10, 20, 30, 60]:
         raise ValueError("duration_ms must be 10, 20, or 30")
 
     vad = webrtcvad.Vad(aggressiveness)
@@ -30,7 +33,7 @@ def monitor_for_voice_interrupt(rate=16000, duration_ms=30, aggressiveness=3, fr
             frames_per_buffer=frame_size
         )
 
-        print(f"[Interrupt Monitor] Listening for voice interrupt (trigger {trigger_count}/{frame_window})...")
+        print(f"[Interrupt Monitor] Listening (trigger {trigger_count}/{frame_window})...")
         frame_history = collections.deque(maxlen=frame_window)
 
         while True:
@@ -38,7 +41,13 @@ def monitor_for_voice_interrupt(rate=16000, duration_ms=30, aggressiveness=3, fr
             if len(frame) != byte_size:
                 continue
 
-            is_voiced = vad.is_speech(frame, rate)
+            # Optional: gate very low energy frames
+            pcm = np.frombuffer(frame, dtype=np.int16)
+            if np.abs(pcm).mean() < energy_threshold:
+                is_voiced = False
+            else:
+                is_voiced = vad.is_speech(frame, rate)
+
             frame_history.append(is_voiced)
 
             bar = ''.join(['█' if v else ' ' for v in frame_history])
@@ -48,7 +57,7 @@ def monitor_for_voice_interrupt(rate=16000, duration_ms=30, aggressiveness=3, fr
                 print("\n[Interrupt Monitor] VOICE INTERRUPT TRIGGERED.")
                 return True
 
-            time.sleep(0.02)
+            time.sleep(0.01)
     except Exception as e:
         print(f"[Interrupt Monitor] Error: {e}")
     finally:
@@ -67,7 +76,8 @@ def play_audio_interruptible_by_voice(audio_file, device_index=None):
     playback = None
 
     def monitor():
-        if monitor_for_voice_interrupt(aggressiveness=3, frame_window=10, trigger_count=3, device_index=device_index):
+        if monitor_for_voice_interrupt(aggressiveness=3, frame_window=10,
+                                        trigger_count=3, device_index=device_index):
             interrupt_event.set()
             if playback and playback.is_playing():
                 playback.stop()
