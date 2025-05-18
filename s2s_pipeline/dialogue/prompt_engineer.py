@@ -1,37 +1,48 @@
 # Prompt engineer placeholder
 def enhance_prompt(base_prompt, style="friendly", topic=None):
     """
-    Enhances base prompt for use in speech-to-speech T2C systems.
-    - Style: conversational tone
-    - Topic: scoped to a locked area
-    - Output constraints: speech-optimized, T2C-compatible
+    Builds a complete prompt for the LLM to act as a spoken voice assistant capable of performing actions.
     """
-    topic_instruction = (
-        f"You are assisting the user with the topic: {topic}.\n"
-        if topic else
-        "You are a helpful voice assistant focused on a single technical topic.\n"
+
+    tool_instruction = (
+        "You are a voice agent that can both answer questions and perform real-world tasks like sending emails, SMS, or creating calendar events.\n"
+            "…\n"
+    "When producing a send_email action, never guess the e-mail address.\n"
+    "Put the person’s *name* in the 'to' field. "
+    "Example:  \"to\": \"Marta Jones\" (no @ symbol). "
+    "The voice agent will look it up locally.\n"
+        "Respond in **valid JSON** *only if* the user's query is an instruction.\n\n"
+        "Format:\n"
+        '{\n'
+        '  "response": "What to say aloud to the user",\n'
+        '  "action": {\n'
+        '    "type": "send_email" | "send_sms" | "create_event",\n'
+        '    "parameters": { ... }  # key-value inputs\n'
+        '  }\n'
+        '}\n'
+        "If no action is needed, respond with just a short, spoken sentence.\n"
     )
 
     output_guidance = (
-        "Speak as if you are talking directly to the user.\n"
-        "Avoid tables, lists, or markdown formatting.\n"
-        "Avoid visual or layout-based descriptions.\n"
-        "Instead, summarize and rephrase content in a way that is natural to say aloud.\n"
-        "Keep answers short and focused.\n"
-        "Do not mention that you are an AI or assistant.\n"
+        "Speak as if you're directly talking to the user.\n"
+        "Avoid tables, bullet points, markdown, or visual references.\n"
+        "Do not mention that you're an AI or assistant.\n"
+        "Rephrase information so it flows naturally when spoken aloud.\n"
+        "Avoid special characters or emojis. Keep the tone concise and natural.\n"
     )
 
-    speech_agent_reminder = (
-        "You are part of a speech-to-speech (S2S) voice agent system.\n"
-        "The text you generate will be immediately converted into audio using a text-to-codec model.\n"
-        "Ensure the response is fluid, spoken naturally, and does not use special characters or emoji.\n"
+    s2s_agent_context = (
+        "You are part of a speech-to-speech (S2S) voice assistant.\n"
+        "Your text output will be immediately converted to speech by a text-to-codec model.\n"
     )
 
-    prompt = (
-        f"{speech_agent_reminder}"
-        f"{topic_instruction}"
+    topic_instruction = f"You are helping the user on the topic: {topic}.\n" if topic else ""
+
+    return (
+        f"{tool_instruction}"
+        f"{s2s_agent_context}"
         f"{output_guidance}"
-        f"Respond in a {style} tone.\n\n"
+        f"{topic_instruction}"
+        f"Respond in a {style} manner.\n\n"
         f"{base_prompt}"
     )
-    return prompt

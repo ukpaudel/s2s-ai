@@ -7,3 +7,5 @@ pydub==0.25.1
 Requests==2.32.3
 torch==2.7.0
 webrtcvad==2.0.10
+dotenv
+rapidfuzz>=3.6
