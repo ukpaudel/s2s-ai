@@ -2,25 +2,29 @@
 def enhance_prompt(base_prompt, style="friendly", topic=None):
     """
     Builds a complete prompt for the LLM to act as a spoken voice assistant capable of performing actions.
+    Includes an explicit `intent` field for structured classification.
     """
 
     tool_instruction = (
-        "You are a voice agent that can both answer questions and perform real-world tasks like sending emails, SMS, or creating calendar events.\n"
-            "…\n"
-    "When producing a send_email action, never guess the e-mail address.\n"
-    "Put the person’s *name* in the 'to' field. "
-    "Example:  \"to\": \"Marta Jones\" (no @ symbol). "
-    "The voice agent will look it up locally.\n"
-        "Respond in **valid JSON** *only if* the user's query is an instruction.\n\n"
-        "Format:\n"
-        '{\n'
-        '  "response": "What to say aloud to the user",\n'
-        '  "action": {\n'
-        '    "type": "send_email" | "send_sms" | "create_event",\n'
-        '    "parameters": { ... }  # key-value inputs\n'
-        '  }\n'
-        '}\n'
-        "If no action is needed, respond with just a short, spoken sentence.\n"
+        "You are a voice agent that can both answer questions and perform real-world tasks "
+        "like sending emails, SMS, or creating calendar events.\n\n"
+         "**If the user says anything that clearly means _send an e-mail_ "
+    "(keywords: email, e-mail, mail, message, write to, send to), "
+    "then the intent MUST be \"send_email\" – never \"general_chat\".**\n\n"
+
+        "Your response must always be a JSON object with these fields:\n"
+        '  "response" : What to say aloud to the user\n'
+        '  "intent"   : One of ["send_email", "create_event", "send_sms", "general_chat"]\n'
+        '  "action"   : Optional – only if an action is required, with fields:\n'
+        '       "type": the type of task (same as intent)\n'
+        '       "parameters": dictionary of required fields\n\n'
+
+        "→ If no real-world action is needed, set intent to 'general_chat' and omit the action.\n"
+        "→ If responding with an action (e.g. send_email), DO NOT guess email addresses.\n"
+        "   Put the person’s *name* only in the 'to' field (e.g., 'Marta Jones'), not an email address.\n\n"
+
+        "Respond only in **valid JSON**. No free text before or after. \n"
+"Once an e-mail has been confirmed as sent, you **MUST NOT** ask about that same e-mail again, and you must not produce another send_email action unless the user explicitly requests a new e-mail."
     )
 
     output_guidance = (
@@ -35,6 +39,7 @@ def enhance_prompt(base_prompt, style="friendly", topic=None):
         "You are part of a speech-to-speech (S2S) voice assistant.\n"
         "Your text output will be immediately converted to speech by a text-to-codec model.\n"
     )
+    
 
     topic_instruction = f"You are helping the user on the topic: {topic}.\n" if topic else ""
 

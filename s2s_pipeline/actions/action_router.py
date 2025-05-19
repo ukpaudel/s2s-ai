@@ -131,6 +131,8 @@ def send_email(to=None, body=None, subject=None, confirm=False, step=None, **_):
       2) get message body
       3) send
     """
+    if subject is None:
+        subject = "Voice assistant message"
 
     # 0️⃣ resolve name (first turn)
     if to and "@" not in to and step is None:
