@@ -12,6 +12,8 @@ from __future__ import annotations
 import json
 from pathlib import Path
 from typing import Tuple
+import time
+import logging
 
 def run_s2s_once(
     audio_path: str | Path,
@@ -25,7 +27,9 @@ def run_s2s_once(
     from s2s_pipeline.dialogue.dialogue_manager import DialogueManager
     from s2s_pipeline.dialogue.prompt_engineer import enhance_prompt
     from s2s_pipeline.dialogue.conversation_classifier import needs_clarification
-    from s2s_pipeline.llm.openai_llm import call_llm
+    #from s2s_pipeline.llm.openai_llm import call_llm
+    #from s2s_pipeline.llm.llama_llm import call_llm
+    from s2s_pipeline.llm.mistral_llm import call_llm
     from s2s_pipeline.llm.llm2t2c_adapter import format_llm_response
     from s2s_pipeline.tts.deepgram_tts import text_to_speech
     from s2s_pipeline.actions.action_router import execute_action
@@ -33,15 +37,17 @@ def run_s2s_once(
         is_affirmative, is_negative, is_cancel, looks_like_filler
     )
     # ─────────────────────────────────────────────────────────────────
-
+    start = time.perf_counter()
     # 1️⃣ Dialogue manager
     if dialogue_manager is None:
         dialogue_manager = DialogueManager()
 
     # 2️⃣ ASR
+    asr_start = time.perf_counter()
     processed_audio = vad_speaker_identification(audio_path)
     asr_result = transcribe_audio(processed_audio)
     user_text = asr_result["transcript"]
+    print(f"[ASR] Took {time.perf_counter() - asr_start:.2f} sec")
 
     # 3️⃣ Quick slot-filling handlers BEFORE calling the LLM
     last_action = dialogue_manager.state.get("last_action")
@@ -96,6 +102,7 @@ def run_s2s_once(
         return user_text, exec_res, text_to_speech(speech), dialogue_manager
 
     # 4️⃣ Build prompt → call LLM
+    llm_start = time.perf_counter()
     if last_action and last_action.get("parameters", {}).get("step"):
         context = dialogue_manager.get_context_snippet(skip_last=True)
     else:
@@ -103,6 +110,7 @@ def run_s2s_once(
     
     prompt = enhance_prompt({"user_input": user_text, "context": context})
     llm_raw = call_llm(prompt)                                   # str or dict
+    print(f"[LLM] Took {time.perf_counter() - llm_start:.2f} sec")
 
     # 5️⃣ Parse structured response
     try:
@@ -184,6 +192,10 @@ def run_s2s_once(
         )
 
     # 8️⃣ TTS
+    tts_start = time.perf_counter()
     tts_path = text_to_speech(tts_text)
+    print(f"[TTS] Took {time.perf_counter() - tts_start:.2f} sec")
+    print(f"[Pipeline] Total time: {time.perf_counter() - start:.2f} sec")
+
 
     return user_text, llm_raw, tts_path, dialogue_manager

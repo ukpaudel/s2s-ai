@@ -1,9 +1,10 @@
 import os
 import requests
+from dotenv import load_dotenv
+load_dotenv()
+LLM_API_URL = os.getenv("LLM_API_URL")
 
-LLM_API_URL = os.getenv("LLM_API_URL", "https://6o9smvjhq9kcfj-8000.proxy.runpod.net/v1/chat/completions")
-
-def call_llm(prompt, model=None, temperature=0.7, max_tokens=256):
+def call_llm(prompt, model=None, temperature=0.7, max_tokens=30):
     try:
         response = requests.post(
             LLM_API_URL,
